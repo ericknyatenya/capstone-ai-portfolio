@@ -1,0 +1,29 @@
+name: Project 3 CI
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'project3_mlops_end_to_end/**'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'project3_mlops_end_to_end/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest
+      - name: Run tests
+        run: |
+          cd project3_mlops_end_to_end
+          PYTHONPATH=.. pytest -q
