@@ -1,0 +1,2 @@
+# Minimal deps for demos
+requests
