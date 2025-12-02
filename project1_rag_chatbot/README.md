@@ -57,6 +57,54 @@ Top retrieved chunks:
   [0.500] Aldrin walked on the lunar surface.
 ```
 
+## FastAPI Server
+
+Run the RAG chatbot as a web service:
+
+```bash
+cd project1_rag_chatbot
+pip install fastapi uvicorn
+PYTHONPATH=.. uvicorn src.app:app --reload --port 8000
+```
+
+The API will be available at `http://localhost:8000`.
+
+### API Endpoints
+
+**Health Check**
+```bash
+curl http://localhost:8000/health
+```
+
+Response:
+```json
+{"status": "ok", "retriever_ready": true}
+```
+
+**Query the RAG Chatbot**
+```bash
+curl -X POST http://localhost:8000/query \
+  -H "Content-Type: application/json" \
+  -d '{"query": "Who walked on the Moon?", "top_k": 2}'
+```
+
+Response:
+```json
+{
+  "query": "Who walked on the Moon?",
+  "results": [
+    {"rank": 1, "score": 0.858, "text": "The Apollo 11 mission landed the first humans on the Moon in 1969."},
+    {"rank": 2, "score": 0.852, "text": "Neil Armstrong and Buzz Aldrin walked on the lunar surface."}
+  ]
+}
+```
+
+### Interactive Docs
+
+Once the server is running, visit:
+- Swagger UI: http://localhost:8000/docs
+- ReDoc: http://localhost:8000/redoc
+
 ## Docker
 
 ```bash
